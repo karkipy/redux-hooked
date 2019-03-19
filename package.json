@@ -2,8 +2,15 @@
   "name": "redux-hooked",
   "version": "0.1.0",
   "description": "react-redux replacement with hooks",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "react-native": "src/index.js",
+  "scripts": {
+    "clean": "rimraf dist",
+    "lint": "eslint src",
+    "build": "babel src -d dist",
+    "prepare": "npm run clean && npm run build",
+    "prepublishOnly": "npm run lint"
+  },
   "repository": "git@github.com:bhoos/red-hooks",
   "author": "Ranjan Shrestha <ranjan@sharingapples.com>",
   "license": "MIT",
@@ -11,12 +18,16 @@
     "react": ">=16.8"
   },
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.15.3",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.11.0",
-    "react": "^16.8.4"
+    "react": "^16.8.4",
+    "rimraf": "^2.6.3"
   }
 }
