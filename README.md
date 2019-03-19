@@ -3,7 +3,7 @@
 import { createStore } from 'redux';
 import createApplication from 'redux-hooked';
 
-const { useStore, useDispatch, useAction } = createApplication(store);
+const { Provider, useStore, useDispatch, useAction } = createApplication();
 
 // Create your application specific hooks and export them
 const getConnectionStatus = state => state.status;

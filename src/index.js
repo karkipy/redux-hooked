@@ -84,6 +84,8 @@ export default function createApplication(AppContext = null) {
   const Context = AppContext || createContext(null);
 
   return {
+    Provider: Context.Provider,
+
     useStore: storeFactory(Context),
     useDispatch: dispatchFactory(Context),
     useAction: actionFactory(Context),
