@@ -1,10 +1,4 @@
-import {
-  useState,
-  useCallback,
-  useEffect,
-  useContext,
-} from 'react';
-import { createContext } from 'vm';
+import { useState, useCallback, useEffect } from 'react';
 
 function shallowEqual(previous, next) {
   if (previous === null || next === null
@@ -33,9 +27,8 @@ function shallowEqual(previous, next) {
   return true;
 }
 
-function storeFactory(Context) {
+function storeFactory(store) {
   return function useStore(mapState, dependencies = []) {
-    const store = useContext(Context);
     const mapper = useCallback(mapState, dependencies);
     const [state, setState] = useState(() => mapper(store.getState()));
 
@@ -58,37 +51,30 @@ function storeFactory(Context) {
   };
 }
 
-function dispatchFactory(Context) {
+function dispatchFactory(store) {
   return function useDispatch() {
-    const store = useContext(Context);
     return store.dispatch;
   };
 }
 
-function actionFactory(Context) {
+function actionFactory(store) {
   return function useAction(actionCreator) {
-    const store = useContext(Context);
     return useCallback((...args) => store.dispatch(actionCreator(...args), [actionCreator]));
   };
 }
 
-function actionsFactory(Context) {
+function actionsFactory(store) {
   return function useActions(mapActions, dependencies = []) {
-    const store = useContext(Context);
     const mapper = useCallback(mapActions, dependencies);
     return mapper(store.dispatch);
   };
 }
 
-export default function createApplication(AppContext = null) {
-  const Context = AppContext || createContext(null);
-
+export default function createApplication(store) {
   return {
-    Provider: Context.Provider,
-
-    useStore: storeFactory(Context),
-    useDispatch: dispatchFactory(Context),
-    useAction: actionFactory(Context),
-    useActions: actionsFactory(Context),
+    useStore: storeFactory(store),
+    useDispatch: dispatchFactory(store),
+    useAction: actionFactory(store),
+    useActions: actionsFactory(store),
   };
 }
